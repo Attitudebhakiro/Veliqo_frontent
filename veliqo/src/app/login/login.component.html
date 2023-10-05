@@ -1,0 +1,64 @@
+<div class="app-body">
+    <br><br><br><br><br><br><br>
+      <main class="main d-flex align-items-center">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-8 mx-auto">
+              <div class="card-group">
+                <div class="card p-4">
+                  <div class="card-body">
+                    <form [formGroup]="loginform" (submit)="login()" ngNativeValidate>
+                      <h1>Login</h1>
+                      <p class="text-info">Sign In to Veliqo Insurance System</p>
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="bi bi-person-square"></i></span>
+                        </div>
+                        <input type="email" class="form-control" placeholder="Email" formControlName="email" autocomplete="email" required>
+                      </div>
+                      <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        </div>
+                        <input type="password" class="form-control" placeholder="Password" formControlName="password" autocomplete="current-password" required>
+                      </div>
+                      <div class="row">
+                        <div class="col-6">
+                          <button type="submit" class="btn btn-primary px-4">Login</button>
+                        </div>
+                        <div class="col-6 text-right">
+                            <a href="/#/register" class="btn btn-link px-0">Register</a>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="card text-white bg-dark py-5 d-md-down-none" style="width:44%">
+                  <div class="card-body text-center">
+                    <div>
+                      <img src="assets/img/veliqo-lab-logo.png" class="col-md-11">
+                      <br>
+                      <span>
+                        <br>
+                      </span>
+                      <span>
+                        <br>
+                      </span>
+                      <span>
+                        <br>
+                      </span>
+                      <button type="button" class="btn btn-brand btn-lg btn-google-plus active mt-3">
+                        <i class="fa fa-google-plus"></i>
+                        <span>Google+</span>
+                        </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  
+

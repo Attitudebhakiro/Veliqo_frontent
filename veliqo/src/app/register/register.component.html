@@ -1,0 +1,132 @@
+<div class="app-body">
+    <br>
+      <main class="main d-flex align-items-center">
+
+        <div class="container">
+            <div  class="row p-2 ">
+                <div *ngIf="Succeed && !Failed" class="col-md-6 offset-3">
+    
+                    <a class="btn btn-success justify-content-center d-flex">Applicant Resgistered</a>
+                </div>
+            </div>
+            <div *ngIf="Failed" class="row p-2">
+                <div class="col-md-6 offset-3">
+                    <a class="btn btn-danger justify-content-arround">Failed To Register</a>
+    
+                </div>
+            </div>
+          <div class="row">
+            <div class="col-md-8 mx-auto">
+              <div class="card-group">
+                <div class="card p-4">
+                  <div class="card-body">
+                    <form [formGroup]="registerform" (submit)="register()" ngNativeValidate  >
+                      <h3 class="text-info">Register</h3>
+                   
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="bi bi-person-square"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="First Name" formControlName="firstName" autocomplete="firstName" required>
+                      </div>
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="bi bi-person-square"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Middle Name ....optional" formControlName="middleName" autocomplete="middleName" >
+                      </div>
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="bi bi-person-square"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Last Name" formControlName="lastName" autocomplete="lastName" required>
+                      </div>
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="bi bi-person-square"></i></span>
+                        </div>
+                        <input type="date" class="form-control" placeholder="" formControlName="dob" required>
+                      </div>
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="bi bi-person-square"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="ID Number" formControlName="idNumber" required>
+                      </div>
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="bi bi-person-square"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Contact" formControlName="contact" required>
+                      </div>
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="bi bi-person-square"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="City" formControlName="city" required>
+                      </div>
+                  
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="bi bi-person-square"></i></span>
+                        </div>
+                        <select class="form-control" formControlName="gender" required>
+                          <option selected>Select Gender</option>
+                            <option >male</option>
+                            <option >female</option> 
+                          </select>
+                      </div>
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="bi bi-person-square"></i></span>
+                        </div>
+                        <input type="email" class="form-control" placeholder="Email" formControlName="email" autocomplete="email" required>
+                      </div>
+                   
+                      <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        </div>
+                        <input type="password" class="form-control" placeholder="Password" formControlName="password" autocomplete="current-password" required>
+                      </div>
+                      <div class="row">
+                        <div class="col-6">
+                          <button type="submit" class="btn btn-primary px-4">Register</button>
+                        </div>
+                        <div class="col-6 text-right">
+                          <a href="/#/login" class="btn btn-link px-0">Login</a>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="card text-white bg-dark py-5 d-md-down-none" style="width:44%">
+                  <div class="card-body text-center">
+                    <div>
+                      <img src="assets/img/veliqo-lab-logo.png" class="col-md-11">
+                      <br>
+                      <span>
+                        <br>
+                      </span>
+                      <span>
+                        <br>
+                      </span>
+                      <span>
+                        <br>
+                      </span>
+                      <button type="button" class="btn btn-brand btn-lg btn-google-plus active mt-3">
+                        <i class="fa fa-google-plus"></i>
+                        <span>Google+</span>
+                        </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  
+
+

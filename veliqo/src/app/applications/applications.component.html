@@ -1,0 +1,116 @@
+<app-dashboard></app-dashboard>
+<main *ngIf="isAdmin" id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Admin</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Review</a></li>
+        <li class="breadcrumb-item active">Insurance Applicants</li>
+        </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Previous Applicants</h5>
+
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-info">Applicant</th>
+                  <th scope="col" class="text-info">Coverage Type</th>
+                  <th scope="col" class="text-info">Dependents</th>
+                  <th scope="col" class="text-info">Married</th>
+                  <th scope="col" class="text-info">Status</th>
+                  <th scope="col" class="text-info">Applied On</th>
+                  <th scope="col" class="text-info">Approved On</th>
+                 
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let apl of applicants" >
+                  
+                  <td>{{ apl.applicant?.name }}  </td> 
+                  <td> {{ apl.coverageType }} </td>
+                  <td> {{ apl.dependents }} </td>
+                  <td> {{ apl.marriageStatus }} </td>
+                  <td> {{ apl.applicationStatus }} </td>
+                 <td> {{ apl.appliedDate }} </td>
+                 <td> {{ apl.approvedDate }} </td>
+          
+                </tr>
+           
+              </tbody>
+            </table>
+            <!-- End Table with stripped rows -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+<app-dashboard></app-dashboard>
+<main *ngIf="isNotAdmin" id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Applicant</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Review</a></li>
+        <li class="breadcrumb-item active text-info">{{ user.name }}</li> 
+        </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Insurance Application Progress</h5>
+
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-info">Coverage Type</th>
+                  <th scope="col" class="text-info">Dependents</th>
+                  <th scope="col" class="text-info">Married</th>
+                  <th scope="col" class="text-info">Status</th>
+                  <th scope="col" class="text-info">Applied On</th>
+                  <th scope="col" class="text-info">Approved On</th>
+                 
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let apll of applicant" >
+
+                  <td> {{ apll.coverageType }} </td>
+                  <td> {{ apll.dependents }} </td>
+                  <td> {{ apll.marriageStatus }} </td>
+                  <td> {{ apll.applicationStatus }} </td>
+                 <td> {{ apll.appliedDate }} </td>
+                 <td> {{ apll.approvedDate }} </td>
+          
+                </tr>
+           
+              </tbody>
+            </table>
+            <!-- End Table with stripped rows -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
