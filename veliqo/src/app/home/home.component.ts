@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class HomeComponent {
   applyform!: FormGroup
   user!: User
+  userDTO: any
   info : any
   Succeed = false;
   Failed = false;
@@ -49,7 +50,7 @@ export class HomeComponent {
   };
    this.appservice.getUserProfile(this.info.email).subscribe((res: any) => {
     this.user = res;
-    console.log(this.user);
+    console.log(this.user.id);
     if(this.user.role==='ADMIN'){
       this.isAdmin = true
       console.log(this.user.role)
@@ -59,13 +60,21 @@ export class HomeComponent {
 
       
    }
+   this.userDTO = {
+    id : this.user.id,
+    name : this.user.name,
+    email : this.user.email
+  }
+  console.log(this.userDTO)
 
   });
 
+  
   }
+  
  
   apply(){
-    this.appservice.applyInsurance(this.applyform.value.coverageType, this.applyform.value.dependents, this.applyform.value.marriageStatus, "Pending",this.user)
+    this.appservice.applyInsurance(this.applyform.value.coverageType, this.applyform.value.dependents, this.applyform.value.marriageStatus, "Pending",this.userDTO)
     .subscribe(
       data  => {
        console.log(data);
@@ -74,8 +83,9 @@ export class HomeComponent {
         this.Failed = false;
      },
        error => {
-            console.log(error);
-            this.Failed = true;
+        this.applyform.reset();
+        this.Succeed = true;
+         this.Failed = false;
 
         }
 

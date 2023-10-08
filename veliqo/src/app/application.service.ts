@@ -85,7 +85,7 @@ export class ApplicationService {
     }
     // apply
     applyInsurance(coverageType:string, dependents:number, marriageStatus:string, applicationStatus:string, applicant:any): Observable<any>{
-      return this.http.post(this.apply,{coverageType,dependents,marriageStatus,applicationStatus,applicant},httpOptions ).pipe(
+      return this.http.post(this.apply,{coverageType,dependents,marriageStatus,applicationStatus,applicant} ).pipe(
         map((res: any) => {
          return res || {}
         }),
