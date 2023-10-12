@@ -5,10 +5,11 @@ import { environment } from './environments/environment';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
 import { User } from './User';
+import { Application } from './Application';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-}
+// const httpOptions = {
+//   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+// }
 
 
 
@@ -16,15 +17,19 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ApplicationService {
-  private signinUrl = environment.baseurl+'/api/auth/authenticate';
-  private signupUrl = environment.baseurl+'/api/auth/register';
-  private userUrl = environment.baseurl+'/api/user/profile';
-  private allSUrl = environment.baseurl+'/api/admin/listApplications';
-  private apply = environment.baseurl+'/api/applicant/apply';
-  private deleteUrl = environment.baseurl+'/api/admin/delete';
-  private approveUrl = environment.baseurl+'/api/admin/approve';
-  private specifiyApplicantUrl = environment.baseurl+'/api/applicant/application';
-  //private allSUrl = environment.baseurl+'/api/auth/test';
+  private admin = '/admin'
+  private signinUrl = environment.baseurl+'/authenticate';
+  private signupUrl = environment.baseurl+'/register';
+  private userUrl = environment.baseurl+'/profile';
+  private allSUrl = environment.baseurl+this.admin+'/listApplications';
+  private allUrl = environment.baseurl+this.admin+'/list';
+  private apply = environment.baseurl+'/applicant/apply';
+  private deleteUrl = environment.baseurl+this.admin+'/delete';
+  private approveUrl = environment.baseurl+this.admin+'/approve';
+  private specifiyApplicantUrl = environment.baseurl+'/applicant/application';
+  private rejectUrl = environment.baseurl+this.admin+'/reject';
+  private statustUrl = environment.baseurl+this.admin+'/status';
+ 
   // headers = new HttpHeaders().set('Content-Type', 'application/json');
   userProfile!:any;
 
@@ -35,10 +40,10 @@ export class ApplicationService {
 
    //register
  signUp(name: string, dob:Date, idNumber:string, contact:string, city:string, gender:string, email:string, password:string, role:string) {
-  return this.http.post<any>(this.signupUrl, {name,dob,idNumber,contact,city,gender ,email,password, role})
+  return this.http.post<User>(this.signupUrl, {name,dob,idNumber,contact,city,gender ,email,password, role})
 
 }
-  // Sign-in
+  // Authentication
   signIn(email:string, password:string) {
     return this.http.post<any>(this.signinUrl, {email,password})
 
@@ -64,28 +69,42 @@ export class ApplicationService {
   
     }
   }
+  //headers
+  // headers = { 'Authorization': 'Bearer '+this.getToken }
+     token = this.getToken()
+    httpOptions = {
+    headers: new HttpHeaders({ 'Authorization': 'Bearer '+this.token })
+  }
     // User profile
-    getUserProfile(email:any): Observable<any> {
+    getUserProfile(email:any): Observable<User> {
      
       let api = `${this.userUrl}/${email}`;
-      return this.http.get(api).pipe(
+      return this.http.get<User>(api, this.httpOptions).pipe(
         map((res) => {
          return res || {}
         }),
       )
     }
 
-    //applicants
-    getApplicantions(): Observable<any>{
-      return this.http.get(this.allSUrl).pipe(
+    //all applicants
+    getApplicantions(): Observable<Application[]>{
+      return this.http.get<Application[]>(this.allSUrl, this.httpOptions).pipe(
+        map((response: any) => {
+         return response || {}
+        }),
+        )
+    }
+    //
+    load(): Observable<Application[]>{
+      return this.http.get<Application[]>(this.allUrl, this.httpOptions).pipe(
         map((response: any) => {
          return response || {}
         }),
         )
     }
     // apply
-    applyInsurance(coverageType:string, dependents:number, marriageStatus:string, applicationStatus:string, applicant:any): Observable<any>{
-      return this.http.post(this.apply,{coverageType,dependents,marriageStatus,applicationStatus,applicant} ).pipe(
+    applyInsurance(coverageType:string, dependents:number, marriageStatus:string, applicationStatus:string, applicant:any): Observable<Application>{
+      return this.http.post<Application>(this.apply,{coverageType,dependents,marriageStatus,applicationStatus,applicant}, this.httpOptions ).pipe(
         map((res: any) => {
          return res || {}
         }),
@@ -93,9 +112,9 @@ export class ApplicationService {
     }
 
     //specific applicant
-    specificApplicant(email:string): Observable<any>{
+    specificApplicant(email:string): Observable<Application>{
       let apiUrl = `${this.specifiyApplicantUrl}/${email}`;
-      return this.http.get(apiUrl).pipe(
+      return this.http.get<Application>(apiUrl, this.httpOptions).pipe(
         map((res: any) => {
          return res || {}
         }),
@@ -103,15 +122,41 @@ export class ApplicationService {
     }
 
     //approve
-    approve(id:number): Observable<any>{
+    approve(id:number): Observable<string>{
       let approve = `${this.approveUrl}/${id}`;
-      return this.http.put(approve, httpOptions)
+      return this.http.put<string>(approve, this.httpOptions)
     }
 
-        //delete application
-        deleteApl(id:number): Observable<any>{
-          let delet = `${this.deleteUrl}/${id}`;
-          return this.http.delete(delet)
+    //delete application
+    deleteApl(id:number): Observable<string>{
+      let delet = `${this.deleteUrl}/${id}`;
+      return this.http.delete<string>(delet, this.httpOptions).pipe(
+        map((res: string) => {
+         return res 
+        }),
+        )
+    }
+
+        //reject application
+        rejectApl(id:number): Observable<string>{
+          let rej = `${this.rejectUrl}/${id}`;
+          return this.http.put<string>(rej, this.httpOptions).pipe(
+            map((res: string) => {
+             return res 
+            }),
+            )
         }
+
+    // list by status
+    listbyStatus(status:string): Observable<Application[]>{
+      let statUrl = `${this.statustUrl}/${status}`;
+      return this.http.get<Application[]>(statUrl, this.httpOptions).pipe(
+        map((res: Application[]) => {
+         return res || {}
+        }),
+        )
+
+
+    }
 
 }

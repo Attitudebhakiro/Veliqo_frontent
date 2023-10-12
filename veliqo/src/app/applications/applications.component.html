@@ -18,7 +18,19 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Previous Applicants</h5>
-
+            <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
+              <li class="nav-item flex-fill" role="presentation">
+                <button (click)="pending()" class="nav-link w-100 " id="home-tab" data-bs-toggle="tab" data-bs-target="#home-justified" type="button" role="tab" aria-controls="home" aria-selected="true">New</button>
+              </li>
+              <li class="nav-item flex-fill" role="presentation">
+                <button (click)="approved()" class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-justified" type="button" role="tab" aria-controls="profile" aria-selected="false">Approved</button>
+              </li>
+              <li class="nav-item flex-fill" role="presentation">
+                <button (click)="rejected()" class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-justified" type="button" role="tab" aria-controls="contact" aria-selected="false">Rejected</button>
+              </li>
+            </ul>
+            <br><br>
+            
             <table class="table datatable">
               <thead>
                 <tr>
@@ -28,20 +40,22 @@
                   <th scope="col" class="text-info">Married</th>
                   <th scope="col" class="text-info">Status</th>
                   <th scope="col" class="text-info">Applied On</th>
-                  <th scope="col" class="text-info">Approved On</th>
+                  <th scope="col" class="text-info">Reviewed On</th>
                  
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let apl of applicants" >
                   
-                  <td>{{ apl.applicant?.name }}  </td> 
+                  <td>{{ apl.applicant.name }}  </td> 
                   <td> {{ apl.coverageType }} </td>
                   <td> {{ apl.dependents }} </td>
                   <td> {{ apl.marriageStatus }} </td>
                   <td> {{ apl.applicationStatus }} </td>
                  <td> {{ apl.appliedDate }} </td>
-                 <td> {{ apl.approvedDate }} </td>
+                 <td><span *ngIf="apl.applicationStatus === statusP">Pending</span>
+                  <span *ngIf="apl.applicationStatus !== statusP">{{ apl.approvedDate }}</span>
+                </td>
           
                 </tr>
            
@@ -86,7 +100,7 @@
                   <th scope="col" class="text-info">Married</th>
                   <th scope="col" class="text-info">Status</th>
                   <th scope="col" class="text-info">Applied On</th>
-                  <th scope="col" class="text-info">Approved On</th>
+                  <th scope="col" class="text-info">Reviewed On</th>
                  
                 </tr>
               </thead>
@@ -98,7 +112,9 @@
                   <td> {{ apll.marriageStatus }} </td>
                   <td> {{ apll.applicationStatus }} </td>
                  <td> {{ apll.appliedDate }} </td>
-                 <td> {{ apll.approvedDate }} </td>
+                 <td> <span *ngIf="apll.applicationStatus === statusP">Pending</span>
+                  <span *ngIf="apll.applicationStatus !== statusP">Pending</span>
+                 </td>
           
                 </tr>
            

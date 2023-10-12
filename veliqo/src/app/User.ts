@@ -10,5 +10,5 @@ export class User{
     password!: string
     role!: string
     tokens!: any
-  static role: string
+  static role: any
 }

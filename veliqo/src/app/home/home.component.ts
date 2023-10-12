@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApplicationService } from '../application.service';
 import { User } from '../User';
 import { Router } from '@angular/router';
+import { Application } from '../Application';
 
 
 @Component({
@@ -19,20 +20,21 @@ export class HomeComponent {
   Failed = false;
   isAdmin = false
   isNotAdmin = false
-  applicants: any
+  applicants!: any
   deleted = false
   updated = false
+  statusP = "Pending"
+  statusA = "Approved"
+  statusR = "Rejected"
+  rejected = false
 
   constructor(
     private appservice :ApplicationService,
     public fb: FormBuilder,
-    private router : Router
+    private router : Router,
+    private changeDetectorRefs : ChangeDetectorRef
   ){
-    this.appservice.getApplicantions().subscribe((resp:any)=>{
-      this.applicants = resp
-      console.log(resp)
-    
-    })
+      
   }
   ngOnInit(): void {
     this.applyform = this.fb.group({
@@ -41,14 +43,18 @@ export class HomeComponent {
       marriageStatus: ['', Validators.required],
     });
 
-  
+     // fetch all applications
+     this.appservice.getApplicantions().subscribe((resp:Application[])=>{
+      this.applicants = resp
+      console.log(this.applicants)
+      })
 
    // logged user
    this.info = {
     email: this.appservice.getEmail()   
 
   };
-   this.appservice.getUserProfile(this.info.email).subscribe((res: any) => {
+   this.appservice.getUserProfile(this.info.email).subscribe((res: User) => {
     this.user = res;
     console.log(this.user.id);
     if(this.user.role==='ADMIN'){
@@ -62,17 +68,16 @@ export class HomeComponent {
    }
    this.userDTO = {
     id : this.user.id,
-    name : this.user.name,
-    email : this.user.email
-  }
+    name : this.user.name
+     }
   console.log(this.userDTO)
 
   });
 
   
   }
-  
- 
+
+ // apply for insurance 
   apply(){
     this.appservice.applyInsurance(this.applyform.value.coverageType, this.applyform.value.dependents, this.applyform.value.marriageStatus, "Pending",this.userDTO)
     .subscribe(
@@ -91,20 +96,36 @@ export class HomeComponent {
 
       );
   }
+  // approve insurance application
   approve(vl: number){
-    this.appservice.approve(vl).subscribe((resp:any)=>{
+    this.appservice.approve(vl).subscribe((resp:string)=>{
        console.log(resp)
       
     })
+    this.applicants = this.applicants.filter((u: { id: number; }) => u.id !== vl);
     this.updated = true
   }
 
-  delete(val: any){
-    this.appservice.deleteApl(val).subscribe( (data: any) =>{
-           
-    })
+  // delete insurance application
+  delete(val: number){
+    this.appservice.deleteApl(val).subscribe( (data: string) =>{
+      console.log(data)
+         
+    })  
+    this.applicants = this.applicants.filter((u: { id: number; }) => u.id !== val);
     this.deleted = true 
   
+  }
+
+  //reject insurance application
+  reject(val: number){
+    this.appservice.rejectApl(val).subscribe( (data: string) =>{
+      console.log(data)
+       
+    })
+    this.applicants = this.applicants.filter((u: { id: number; }) => u.id !== val);
+    this.rejected = true
+
   }
 
 }

@@ -74,16 +74,22 @@
     <div class="container">
       <div *ngIf="deleted" class="row p-2">
         <div class="col-md-6 offset-3">
-            <a class="btn btn-danger justify-content-arround">Application deleted: refresh to review</a>
+            <a class="btn btn-danger justify-content-arround">Application deleted</a>
 
         </div>
     </div>
     <div *ngIf="updated" class="row p-2">
       <div class="col-md-6 offset-3">
-          <a class="btn btn-success justify-content-arround">Application Approved: refresh to review</a>
+          <a class="btn btn-success justify-content-arround">Application Approved</a>
 
       </div>
   </div>
+  <div *ngIf="rejected" class="row p-2">
+    <div class="col-md-6 offset-3">
+        <a class="btn btn-warning justify-content-arround">Application Rejected</a>
+
+    </div>
+</div>
     </div>
     <div class="row">
       <div class="col-lg-12">
@@ -91,33 +97,38 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Applicants</h5>
-
-            <table class="table datatable">
+              
+              <table class="table datatable">
               <thead >
                 <tr>
                   <th scope="col" class="text-info">Applicant</th>
                   <th scope="col" class="text-info">Coverage Type</th>
                   <th scope="col" class="text-info">Status</th>
                   <th scope="col" class="text-info">Applied On</th>                
-                  <th scope="col">Approve</th>
+                  <th scope="col" class="text-info">Approve</th>
+                  <th scope="col" class="text-info">Reject</th>
                   <th scope="col" class="text-info">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let apl of applicants" >
                   
-                  <td>{{ apl.applicant?.name }}  </td> 
+                  <td>{{ apl.applicant.name }}  </td> 
                   <td> {{ apl.coverageType }} </td>
                   <td> {{ apl.applicationStatus }} </td>
                  <td> {{ apl.appliedDate }} </td>
-                <td><button type="submit" class="btn btn-primary px-4" (click)="approve(apl.id)">Approve</button></td>
+                <td><button *ngIf="apl.applicationStatus === statusP" type="submit" class="btn btn-primary px-4" (click)="approve(apl.id)">Approve</button>
+                  <button *ngIf="apl.applicationStatus !== statusP" type="submit" class="btn btn-default px-4" >Done</button>
+                </td>
+                <td><button *ngIf="apl.applicationStatus === statusP" type="submit" class="btn btn-warning px-4" (click)="reject(apl.id)">Reject</button>
+                  <button *ngIf="apl.applicationStatus !== statusP" type="submit" class="btn btn-default px-4" >Done</button>
+                </td>
                  <td><button type="submit" class="btn btn-danger px-4" (click)="delete(apl.id)">Delete</button></td>
                 </tr>
            
               </tbody>
             </table>
-            <!-- End Table with stripped rows -->
-
+       
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { User } from '../User';
 import { ApplicationService } from '../application.service';
+import { Application } from '../Application';
 
 @Component({
   selector: 'app-applications',
@@ -14,11 +15,15 @@ export class ApplicationsComponent {
   isNotAdmin = false
   applicants: any
   applicant: any
+  statusP = "Pending"
+  statusA = "Approved"
+  statusR = "Rejected"
 
   constructor(
     private appservice :ApplicationService,
 
   ){
+    // list all applications
     this.appservice.getApplicantions().subscribe((resp:any)=>{
       this.applicants = resp
       console.log(resp)
@@ -51,10 +56,27 @@ export class ApplicationsComponent {
   this.appservice.specificApplicant(this.info.email).subscribe((resp:any)=>{
     this.applicant = resp
     console.log(resp)
-
- 
   })
 
+  }
+  //list pending applications
+
+  pending(){
+    this.appservice.listbyStatus("Pending").subscribe((data: Application[])=>{
+      this.applicants = data
+    })
+  }
+  // list rejected applications
+  rejected(){
+    this.appservice.listbyStatus("Rejected").subscribe((data: Application[])=>{
+      this.applicants = data
+    })
+  }
+  //list approved applications
+  approved(){
+    this.appservice.listbyStatus("Approved").subscribe((data: Application[])=>{
+      this.applicants = data
+    })
   }
 
 }
